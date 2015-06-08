@@ -12,7 +12,7 @@ from reportlab.pdfgen import canvas
 """
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('path',nargs='?',default=None)
+    parser.add_argument('path',nargs='?',default=None, help="jpeg's directory")
     return parser.parse_args()
 
 # all to pdf mode
@@ -39,6 +39,7 @@ def convert_single(dir_name, pdf_name):
         files.remove([])
     files.sort()
 
+    print("Generate",pdf_name,"\nfrom",dir_name)
     my_canvas = canvas.Canvas(pdf_name)
     for file in files:
         with Image.open(file) as image:
@@ -52,16 +53,14 @@ def convert_single(dir_name, pdf_name):
         print("pdf generate error")
     print("Complete")
 
-        
-
 # mode
 # 引数に対応するmodeの関数を返す。convert_single()かconvert_all()を返す
 def get_mode():
     args = get_args()
+    print(args)
     if args.path is not None:
-        dir_name = args.path[0]
-        # 第二引数がないなら、directory名をpdf名にする
-        pdf_name = args.path[1] if len(args.path)>2 else dir_name+".pdf"
+        dir_name = args.path
+        pdf_name = dir_name+".pdf"
         return convert_single(dir_name, pdf_name)
     return convert_all()
 
