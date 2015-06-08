@@ -17,7 +17,16 @@ def get_args():
 
 # all to pdf mode
 def convert_all():
-    print("all")
+    paths= os.listdir(os.getcwd())
+    print("before path ",paths)
+    print("-------------------")
+    for path in paths:
+        if os.path.isfile(path):
+            paths.remove(path)
+            print(path+" is not dir")
+            continue
+        print(path+" is dir")
+    print(paths)
 
 # single to pdf mode
 def convert_single(dir_name, pdf_name):
